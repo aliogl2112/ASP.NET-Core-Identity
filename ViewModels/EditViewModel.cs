@@ -4,7 +4,7 @@ namespace Identity.ViewModels
 {
 	public class EditViewModel
 	{
-		public string Id { get; set; }
+		public string? Id { get; set; }
 		public string? FullName { get; set; } = string.Empty;
 
 		[EmailAddress]
