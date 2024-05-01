@@ -10,6 +10,30 @@ builder.Services.AddDbContext<IdentityContext>();
 
 builder.Services.AddIdentity<IdentityUser,IdentityRole>().AddEntityFrameworkStores<IdentityContext>();// AddEntityFrameworkStores ile tablolarýn hangi dbye eklendiðini belirtiyoruz
 
+builder.Services.Configure<IdentityOptions>(options => //Identity ayarlamalarý burdan yapýlýyor.
+{
+    //parola ayarlarý
+    options.Password.RequiredLength = 8; //min length
+    options.Password.RequireNonAlphanumeric = false; //özel karakter
+    options.Password.RequireLowercase = false; // küçük harf
+	options.Password.RequireUppercase = false; // büyük harf
+	options.Password.RequireDigit = true; // rakam
+
+    //kullanýcý ayarlarý
+    options.User.RequireUniqueEmail=true;//unique email
+    options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "; //username içerisinde kullanýlabilecek karakterler
+    
+    //lockout ayarlarý
+    options.Lockout.MaxFailedAccessAttempts = 5; // max giriþ deneme hakký
+    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5); // hak dolduktan sonra yeni deneme için beklenecek süre
+    options.Lockout.AllowedForNewUsers = false;
+
+    //signin ayarlarý
+    options.SignIn.RequireConfirmedPhoneNumber = false; //giriþ için telefonunun onaylý olmasý
+	options.SignIn.RequireConfirmedEmail = false; //giriþ için mailinin onaylý olmasý
+
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
