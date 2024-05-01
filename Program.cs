@@ -1,4 +1,5 @@
 using Identity.Data.Concrete.EFCore;
+using Identity.Models;
 using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,8 +9,8 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<IdentityContext>();
 
-builder.Services.AddIdentity<IdentityUser,IdentityRole>().AddEntityFrameworkStores<IdentityContext>();// AddEntityFrameworkStores ile tablolarýn hangi dbye eklendiðini belirtiyoruz
-
+builder.Services.AddIdentity<User,Role>().AddEntityFrameworkStores<IdentityContext>();// AddEntityFrameworkStores ile tablolarýn hangi dbye eklendiðini belirtiyoruz
+//User yerinde ilk önce IdentityUser yazýyorduk. Artýk IdentityUser'den türettiðimiz daha kapsamlý User classý ile çalýþtýðýmýz için deðerini deðiþtirdik.
 builder.Services.Configure<IdentityOptions>(options => //Identity ayarlamalarý burdan yapýlýyor.
 {
     //parola ayarlarý

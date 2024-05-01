@@ -1,6 +1,7 @@
-﻿@model CreateViewModel
-<form asp-controller="Users" asp-action="Edit" method="post">
-	<h2>Edit User</h2>
+﻿@model EditViewModel
+<form asp-controller="Users" asp-action="Create" method="post">
+	<input type="hidden" class="form-control" name="Id" value="@Model.Id" />
+	<h2>Create User</h2>
 	<hr />
 	<div class="text-danger" asp-validation-summary="All">
 

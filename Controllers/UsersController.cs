@@ -1,4 +1,5 @@
-﻿using Identity.ViewModels;
+﻿using Identity.Models;
+using Identity.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,8 +7,8 @@ namespace Identity.Controllers
 {
     public class UsersController : Controller
     {
-        private UserManager<IdentityUser> _userManager; //kullanıcı işlemlerini yapacağımız usermanageri controllera dahil ettik
-        public UsersController(UserManager<IdentityUser> userManager)
+        private UserManager<User> _userManager; //kullanıcı işlemlerini yapacağımız usermanageri controllera dahil ettik
+        public UsersController(UserManager<User> userManager)
         {
             _userManager=userManager;
         }
@@ -28,11 +29,12 @@ namespace Identity.Controllers
 		{
             if (ModelState.IsValid)
             {
-                var user = new IdentityUser
+                var user = new User
                 {
 
-                    UserName = model.UserName,
-                    Email = model.Email
+                    UserName = model.Email,
+                    Email = model.Email,
+                    FullName = model.FullName
                 };
 
                 IdentityResult result = await _userManager.CreateAsync(user,model.Password);
@@ -48,6 +50,28 @@ namespace Identity.Controllers
                 }
             }
 			return View(model);
+		}
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(string id)
+        {
+            if (id is null)
+                return RedirectToAction("Index");
+
+            var user = await _userManager.FindByIdAsync(id);
+
+            if (user is not null)
+            {
+				return View(new EditViewModel
+                {
+                    Id=user.Id,
+                    FullName=user.FullName,
+                    Email=user.Email
+                });
+			}
+
+			return RedirectToAction("Index");
+
 		}
 	}
 }

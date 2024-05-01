@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Identity.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace Identity.Data.Concrete.EFCore
@@ -17,14 +18,15 @@ namespace Identity.Data.Concrete.EFCore
 
             }
 
-            var userManager = app.ApplicationServices.CreateScope().ServiceProvider.GetRequiredService<UserManager<IdentityUser>>(); //kullanıcı işlemlerinin yürütüleceği UserManager objesini app üzerinden aldık
+            var userManager = app.ApplicationServices.CreateScope().ServiceProvider.GetRequiredService<UserManager<User>>(); //kullanıcı işlemlerinin yürütüleceği UserManager objesini app üzerinden aldık
 
             var user = await userManager.FindByNameAsync(adminUser); //kullanıcı adına göre veritabanında arama yapıyoruz
 
             if(user is null)
             {
-                user = new IdentityUser //Identity framework üzerinden gelen hazır sınıf ile kullanıcı oluşturuyoruz
+                user = new User //Identity framework üzerinden gelen hazır sınıf ile kullanıcı oluşturuyoruz
                 {
+                    FullName = "Ali Oğul",
                     UserName=adminUser,
                     Email ="admin@aliogul.com",
                     PhoneNumber="12345678900"
