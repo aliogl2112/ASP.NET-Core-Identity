@@ -1,7 +1,14 @@
+using Identity.Data.Concrete.EFCore;
+using Microsoft.AspNetCore.Identity;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddDbContext<IdentityContext>();
+
+builder.Services.AddIdentity<IdentityUser,IdentityRole>().AddEntityFrameworkStores<IdentityContext>();// AddEntityFrameworkStores ile tablolarýn hangi dbye eklendiðini belirtiyoruz
 
 var app = builder.Build();
 
@@ -23,5 +30,7 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+IdentitySeedData.IdentityTestUser(app); //Seeddatayý çaðýrdýk ve beklediði app nesnesini gönderdik
 
 app.Run();
