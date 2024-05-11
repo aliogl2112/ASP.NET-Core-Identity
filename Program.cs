@@ -22,7 +22,7 @@ builder.Services.Configure<IdentityOptions>(options => //Identity ayarlamalarý b
 
     //kullanýcý ayarlarý
     options.User.RequireUniqueEmail=true;//unique email
-    options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "; //username içerisinde kullanýlabilecek karakterler
+    options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@."; //username içerisinde kullanýlabilecek karakterler
     
     //lockout ayarlarý
     options.Lockout.MaxFailedAccessAttempts = 5; // max giriþ deneme hakký
