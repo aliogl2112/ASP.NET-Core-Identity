@@ -2,15 +2,18 @@
 using Identity.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Identity.Controllers
 {
     public class UsersController : Controller
     {
         private UserManager<User> _userManager; //kullanıcı işlemlerini yapacağımız usermanageri controllera dahil ettik
-        public UsersController(UserManager<User> userManager)
+		private RoleManager<Role> _roleManager;
+		public UsersController(UserManager<User> userManager, RoleManager<Role> roleManager)
         {
             _userManager=userManager;
+            _roleManager=roleManager;
         }
         [HttpGet]
         public IActionResult Index()
@@ -62,11 +65,13 @@ namespace Identity.Controllers
 
             if (user is not null)
             {
+                ViewBag.Roles = await _roleManager.Roles.Select(r=>r.Name).ToListAsync();
 				return View(new EditViewModel
                 {
                     Id=user.Id,
                     FullName=user.FullName,
-                    Email=user.Email
+                    Email=user.Email,
+                    SelectedRoles = await _userManager.GetRolesAsync(user)
                 });
 			}
 

@@ -17,5 +17,7 @@ namespace Identity.ViewModels
 		[DataType(DataType.Password)]
 		[Compare(nameof(Password),ErrorMessage ="Parola bilgileri eşleşmiyor.")] //Password değeri ile karşılaştırılmasını sağladık
 		public string? ConfirmPassword { get; set; } = string.Empty;
+
+		public IList<string>? SelectedRoles { get; set; }
 	}
 }
